@@ -57,7 +57,7 @@ class MediaWikiConfigFlow(ConfigFlow, domain="mediawiki"):
         self._client = await self.hass.async_add_executor_job(lambda: MediaWiki(url=url))
 
         try:
-            response = await self.hass.async_add_executor_job(self._client.api_version)
+            response = await self.hass.async_add_executor_job(lambda: self._client.api_version)
         except MediaWikiException as exception:
             LOGGER.exception(exception)
             return self.async_show_form(
