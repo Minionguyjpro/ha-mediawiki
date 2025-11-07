@@ -27,7 +27,7 @@ class MediaWikiSensorEntityDescription(SensorEntityDescription):
     avabl_fn: Callable[[dict[str, Any]], bool] = lambda data: True
 
 
-SENSOR_DESCRIPTIONS: tuple[MediaWikiSensorEntityDescription, ...] = {
+SENSOR_DESCRIPTIONS: tuple[MediaWikiSensorEntityDescription, ...] = (
     MediaWikiSensorEntityDescription(
         key="pages_count",
         translation_key="pages_count",
@@ -35,7 +35,7 @@ SENSOR_DESCRIPTIONS: tuple[MediaWikiSensorEntityDescription, ...] = {
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda data: data["statistics"]["pages"],
     ),
-}
+)
 
 async def async_setup_entry(
     hass: HomeAssistant,
