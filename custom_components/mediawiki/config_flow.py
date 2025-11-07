@@ -22,7 +22,7 @@ from homeassistant.helpers import config_validation as cv
 from .const import CONF_INSTANCES, LOGGER
 
 
-class MediaWikiConfigFlow(ConfigFlow):
+class MediaWikiConfigFlow(ConfigFlow, domain="mediawiki"):
     VERSION = 1
 
     def __init__(self) -> None:
