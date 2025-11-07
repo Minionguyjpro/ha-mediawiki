@@ -1,4 +1,4 @@
-from __future import annotations
+from __future__ import annotations
 
 from mediawiki import MediaWiki
 
