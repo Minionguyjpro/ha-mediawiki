@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: MediaWikiConfigEntry) -> bool:
-    instances: list[str] = entry.options[CONF_INSTANCES]
+    instances: list[dict[str, str]] = entry.data[CONF_INSTANCES]
 
     entry.runtime_data = {}
     for instance in instances:
