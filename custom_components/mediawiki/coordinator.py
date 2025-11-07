@@ -25,7 +25,8 @@ class MediaWikiDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         instance: dict[str, Any],
     ) -> None:
         self.instance = instance
-        self._client = MediaWiki(url=instance["url"])
+        self._client = None
+        self._init_task = hass.async_add_executor_job(MediaWiki, instance["url"])
         self.data = {}
 
         super().__init__(
@@ -37,6 +38,9 @@ class MediaWikiDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         )
 
     async def _async_update_data(self) -> MediaWiki[dict[str, Any]]:
+        if self._client is None:
+            self._client = await self._init_task
+        
         params = {
             "action": "query",
             "meta": "siteinfo",
