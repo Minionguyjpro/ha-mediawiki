@@ -7,7 +7,7 @@ from mediawiki import (
     MediaWiki,
     MediaWikiException,
 )
-import voluptuous as voluptuous
+import voluptuous as vol
 
 from homeassistant.config_entries import (
     ConfigEntry,
