@@ -1,0 +1,13 @@
+{
+  "domain": "mediawiki",
+  "name": "MediaWiki",
+  "config_flow": true,
+  "version": "1.0.0",
+  "iot_class": "cloud_polling",
+  "documentation": "https://github.com/Minionguyjpro/ha-mediawiki",
+  "issue_tracker": "https://github.com/Minionguyjpro/ha-mediawiki/issues",
+  "requirements": ["pymediawiki"],
+  "dependencies": ["network"],
+  "integration_type": "device",
+  "codeowners": ["@minionguyjpro"]
+}

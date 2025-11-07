@@ -1,0 +1,22 @@
+{
+    "config": {
+        "abort": {
+            "could_not_register": "Could not register integration with your MediaWiki instance"
+        }
+    },
+    "entity": {
+        "sensor": {
+            "images_count": {
+                "name": "Images",
+                "unit_of_measurement": "images"
+            },
+            "pages_count": {
+                "name": "Pages",
+                "unit_of_measurement": "pages"
+            },
+            "software_version": {
+                "name": "Software version"
+            }
+        }
+    }
+}
