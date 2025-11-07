@@ -3,6 +3,8 @@ from __future__ import annotations
 import asyncio
 from typing import TYPE_CHECKING, Any
 
+from functools import partial
+
 from mediawiki import (
     MediaWiki,
     MediaWikiException,
@@ -52,11 +54,8 @@ class MediaWikiConfigFlow(ConfigFlow, domain="mediawiki"):
         )
 
         url = user_input[CONF_URL]
-        if not self._client:
-            self._client = MediaWiki(
-                url=url
-            )
-        
+        self._client = await self.hass.async_add_executor_job(partial(MediaWiki, url=url))
+
         try:
             response = await self.hass.async_add_executor_job(self._client.api_version)
         except MediaWikiException as exception:
