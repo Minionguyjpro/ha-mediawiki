@@ -33,6 +33,7 @@ SENSOR_DESCRIPTIONS: tuple[MediaWikiSensorEntityDescription, ...] = (
         translation_key="images_count",
         entity_category=EntityCategory.DIAGNOSTIC,
         state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda data: data["statistics"]["images"],
     ),
     MediaWikiSensorEntityDescription(
         key="pages_count",
