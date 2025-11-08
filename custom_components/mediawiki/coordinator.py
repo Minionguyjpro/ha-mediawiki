@@ -60,6 +60,8 @@ class MediaWikiDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         statistics = query.get("statistics", {})
         general = query.get("general", {})
 
+        self.instance["name"] = general.get("sitename", self.instance["url"])
+
         return {
             "statistics": statistics,
             "general": general,
