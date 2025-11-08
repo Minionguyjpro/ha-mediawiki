@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from typing import Any
+from re import sub
 
 from homeassistant.components.sensor import (
     SensorEntity,
@@ -85,11 +86,12 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
             coordinator.data.get("general", {}).get("sitename")
             if coordinator.data else coordinator.instance["url"]
         )
-        normalized_name = wiki_name.lower().replace(" ", "_")
+        normalized_name = sub(r"[^a-z0-9_]", "", wiki_name.lower().replace(" ", "_"))
 
         LOGGER.debug(
             "Initializing MediaWikiSensorEntity: wiki_name=%s, description=%s, key=%s",
             wiki_name,
+            normalized_name,
             entity_description,
             entity_description.key,
         )
@@ -97,7 +99,7 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
         self._attr_unique_id = f"{normalized_name}_{entity_description.key}"
     
         self._attr_device_info = DeviceInfo(
-            identifiers={("mediawiki", coordinator.instance["url"])},
+            identifiers={("mediawiki", normalized_name)},
             name=wiki_name,
             manufacturer="MediaWiki",
             configuration_url=coordinator.instance["url"],
