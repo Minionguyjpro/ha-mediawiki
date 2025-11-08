@@ -1,0 +1,15 @@
+{
+    "entity": {
+        "sensor": {
+            "images_count": {
+                "default": "mdi:image-multiple"
+            },
+            "pages_count": {
+                "default": "mdi:book-open-page-variant"
+            },
+            "software_version": {
+                "default": "mdi:package"
+            }
+        }
+    }
+}

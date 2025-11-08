@@ -29,11 +29,23 @@ class MediaWikiSensorEntityDescription(SensorEntityDescription):
 
 SENSOR_DESCRIPTIONS: tuple[MediaWikiSensorEntityDescription, ...] = (
     MediaWikiSensorEntityDescription(
+        key="images_count",
+        translation_key="images_count",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    MediaWikiSensorEntityDescription(
         key="pages_count",
         translation_key="pages_count",
         entity_category=EntityCategory.DIAGNOSTIC,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda data: data["statistics"]["pages"],
+    ),
+    MediaWikiSensorEntityDescription(
+        key="software_version",
+        translation_key="software_version",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda data: data["general"]["generator"],
     ),
 )
 
