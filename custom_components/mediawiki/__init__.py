@@ -25,10 +25,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: MediaWikiConfigEntry) ->
 
         await coordinator.async_config_entry_first_refresh()
 
-        if not entry.pref_disable_polling:
-            await coordinator.subscribe()
-
-        entry.runtime_data[instance] = coordinator
+        entry.runtime_data[instance["url"]] = coordinator
     
     async_cleanup_device_registry(hass=hass, entry=entry)
 
@@ -46,9 +43,12 @@ def async_cleanup_device_registry(
         registry=device_registry,
         config_entry_id=entry.entry_id,
     )
+
+    tracked_urls = [i["url"] for i in entry.data[CONF_INSTANCES]]
+    
     for device in devices:
         for item in device.identifiers:
-            if item[1] not in entry.options[CONF_INSTANCES]:
+            if item[1] not in tracked_urls:
                 LOGGER.debug(
                     (
                         "Unlinking device %s for untracked instance %s from config"
@@ -65,8 +65,4 @@ def async_cleanup_device_registry(
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: MediaWikiConfigEntry) -> bool:
-    instances = entry.runtime_data
-    for coordinator in instances.values():
-        coordinator.unsubscribe()
-
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
