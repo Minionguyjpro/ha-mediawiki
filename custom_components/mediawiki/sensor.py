@@ -89,7 +89,7 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
         normalized_name = sub(r"[^a-z0-9_]", "", wiki_name.lower().replace(" ", "_"))
 
         LOGGER.debug(
-            "Initializing MediaWikiSensorEntity: wiki_name=%s, description=%s, key=%s",
+            "Initializing MediaWikiSensorEntity: wiki_name=%s, normalized_name=%, description=%s, key=%s",
             wiki_name,
             normalized_name,
             entity_description,
