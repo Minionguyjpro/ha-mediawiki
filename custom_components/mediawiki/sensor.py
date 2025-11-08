@@ -89,7 +89,7 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
     
         self._attr_device_info = DeviceInfo(
             identifiers={("mediawiki", coordinator.instance["url"])},
-            name=f"{wiki_name} {entity_description.name or entity_description.key.title()}",
+            name=wiki_name,
             manufacturer="MediaWiki",
             configuration_url=coordinator.instance["url"],
             entry_type=DeviceEntryType.SERVICE,
