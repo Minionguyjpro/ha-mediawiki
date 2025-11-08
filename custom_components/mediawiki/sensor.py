@@ -18,6 +18,8 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .coordinator import MediaWikiConfigEntry, MediaWikiDataUpdateCoordinator
 
+from .const import LOGGER
+
 
 @dataclass(frozen=True, kw_only=True)
 class MediaWikiSensorEntityDescription(SensorEntityDescription):
@@ -76,7 +78,7 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
         entity_description: MediaWikiSensorEntityDescription,
     ) -> None:
         super().__init__(coordinator=coordinator)
-
+        
         self.entity_description = entity_description
 
         wiki_name = (
@@ -85,6 +87,13 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
         )
         normalized_name = wiki_name.lower().replace(" ", "_")
 
+        LOGGER.debug(
+            "Initializing MediaWikiSensorEntity: wiki_name=%s, description=%s, key=%s",
+            wiki_name,
+            entity_description,
+            entity_description.key,
+        )
+        
         self._attr_unique_id = f"{normalized_name}_{entity_description.key}"
     
         self._attr_device_info = DeviceInfo(
