@@ -66,14 +66,17 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
 
         self.entity_description= entity_description
 
-        wiki_name = coordinator.instance.get("name", coordinator.instance["url"])
+        wiki_name = (
+            coordinator.data.get("general", {}).get("sitename")
+            if coordinator.data else coordinator.instance["url"]
+        )
         normalized_name = wiki_name.lower().replace(" ", "_")
 
         self._attr_unique_id = f"{normalized_name}_{entity_description.key}"
     
         self._attr_device_info = DeviceInfo(
             identifiers={("mediawiki", coordinator.instance["url"])},
-            name=wiki_name,
+            name=f"{wiki_name} {entity_description.name or entity_description.key.title()}",
             manufacturer="MediaWiki",
             configuration_url=coordinator.instance["url"],
             entry_type=DeviceEntryType.SERVICE,
