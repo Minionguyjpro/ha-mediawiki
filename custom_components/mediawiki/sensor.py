@@ -57,11 +57,11 @@ async def async_setup_entry(
 ) -> None:
     instances = entry.runtime_data
     async_add_entities(
-        {
+        (
             MediaWikiSensorEntity(coordinator, description)
             for description in SENSOR_DESCRIPTIONS
             for coordinator in instances.values()
-        },
+        ),
     )
 
 class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], SensorEntity):
@@ -77,7 +77,7 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
     ) -> None:
         super().__init__(coordinator=coordinator)
 
-        self.entity_description= entity_description
+        self.entity_description = entity_description
 
         wiki_name = (
             coordinator.data.get("general", {}).get("sitename")
