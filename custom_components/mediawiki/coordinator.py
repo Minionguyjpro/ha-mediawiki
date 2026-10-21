@@ -1,10 +1,7 @@
 from __future__ import annotations
 from typing import Any
 
-from mediawiki import (
-    MediaWiki,
-    MediaWikiException,
-)
+from mediawiki import MediaWiki
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP
@@ -52,7 +49,7 @@ class MediaWikiDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 self._client.wiki_request,
                 params
             )
-        except MediaWikiException as exception:
+        except Exception as exception:
             LOGGER.exception(exception)
             raise UpdateFailed(exception) from exception
 

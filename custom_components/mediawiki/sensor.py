@@ -11,7 +11,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import EntityCategory
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.typing import StateType
@@ -87,9 +87,11 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
             if coordinator.data else coordinator.instance["url"]
         )
         normalized_name = sub(r"[^a-z0-9_]", "", wiki_name.lower().replace(" ", "_"))
+        
+        self._handle_coordinator_update()
 
         LOGGER.debug(
-            "Initializing MediaWikiSensorEntity: wiki_name=%s, normalized_name=%, description=%s, key=%s",
+            "Initializing MediaWikiSensorEntity: wiki_name=%s, normalized_name=%s, description=%s, key=%s",
             wiki_name,
             normalized_name,
             entity_description,
@@ -106,6 +108,12 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
             entry_type=DeviceEntryType.SERVICE,
         )
 
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        if self.coordinator.data:
+            self._attr_extra_state_attributes = self.entity_description.attr_fn(self.coordinator.data)
+        super()._handle_coordinator_update()
+
     @property
     def available(self) -> bool:
         return (
@@ -117,7 +125,3 @@ class MediaWikiSensorEntity(CoordinatorEntity[MediaWikiDataUpdateCoordinator], S
     @property
     def native_value(self) -> StateType:
         return self.entity_description.value_fn(self.coordinator.data)
-
-    @property
-    def extra_state_attributes(self) -> Mapping[str, Any] | None:
-        return self.entity_description.attr_fn(self.coordinator.data)

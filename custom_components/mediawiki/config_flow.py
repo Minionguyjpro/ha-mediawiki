@@ -5,10 +5,7 @@ from typing import TYPE_CHECKING, Any
 
 from functools import partial
 
-from mediawiki import (
-    MediaWiki,
-    MediaWikiException,
-)
+from mediawiki import MediaWiki
 import voluptuous as vol
 
 from homeassistant.config_entries import (
